@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đếm Ngược Giao Thừa 2025</title>
+    <style>
+        /* haha */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: 0;
+            background: url('https://cdn-media.sforum.vn/storage/app/media/thanhhuyen/h%C3%ACnh%20n%E1%BB%81n%20thi%E1%BB%87p%20t%E1%BA%BFt/hinh-nen-thiep-tet-thumb.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .unit {
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s;
+        }
+
+        .unit:hover {
+            transform: scale(1.1);
+        }
+
+        .firework {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: explode 1s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .celebrate {
+            font-size: 5rem;
+            color: gold;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: fadeIn 1s forwards 1s, bounce 1s infinite;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="celebrate">Chúc Mừng Năm Mới 2025!</h1>
+    <div class="countdown">
+        <div class="unit" id="days">00 <span>Ngày</span></div>
+        <div class="unit" id="hours">00 <span>Giờ</span></div>
+        <div class="unit" id="minutes">00 <span>Phút</span></div>
+        <div class="unit" id="seconds">00 <span>Giây</span></div>
+    </div>
+
+    <script>
+        const countdownDate = new Date('2025-01-01T00:00:00').getTime();
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerHTML = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerHTML = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerHTML = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerHTML = seconds < 10 ? '0' + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(interval);
+                triggerFireworks();
+                showCelebrationMessage();
+            }
+        };
+
+        const showCelebrationMessage = () => {
+            const celebrateMessage = document.getElementById('celebrate');
+            celebrateMessage.style.opacity = '1';
+            celebrateMessage.style.transform = 'translateY(0)';
+        };
+
+        const triggerFireworks = () => {
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.width = Math.random() * 50 + 20 + 'px';
+                    firework.style.height = firework.style.width;
+                    firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    firework.style.left = Math.random() * 100 + 'vw';
+                    firework.style.bottom = Math.random() * 100 + 'vh';
+                    document.body.appendChild(firework);
+
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }, i * 300);
+            }
+        };
+
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+
+</html>
